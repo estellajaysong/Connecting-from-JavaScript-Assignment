@@ -12,7 +12,9 @@ const knex = require('knex')({
 
 const arg = process.argv[2];
 
-knex.from('famous_people').select('first_name', 'last_name', 'birthdate').where('first_name', '=', arg).orWhere('last_name', '=', arg)
+knex.from('famous_people')
+  .select('first_name', 'last_name', 'birthdate')
+  .where('first_name', '=', arg).orWhere('last_name', '=', arg)
   .then(console.log('Searching ...'))
   .then((rows) => {
     (console.log(`Found ${rows.length} person(s) by the name '${arg}':`))
@@ -24,4 +26,5 @@ knex.from('famous_people').select('first_name', 'last_name', 'birthdate').where(
   }).catch((err) => { console.log(err); throw err })
   .finally(() => {
     knex.destroy();
+    process.exit();
   });
